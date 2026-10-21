@@ -123,7 +123,7 @@ Environment variables are documented in `web/.env.example` and `web/DEPLOYING.md
 
 ## Data and licensing
 
-The scraped data (meme pictures, captions, usernames) is **not** in this repository and must not be committed: the pictures are third-party images and the captions belong to their authors. [Imgflip's terms](https://imgflip.com/terms) say content may not be used without its owner's permission. The scraper only follows what `robots.txt` allows and is deliberately slow, but that is not permission. This project is a private research prototype and is not affiliated with Imgflip; get permission or use a licensed collection before any public or commercial use. The `tests/fixtures/` HTML files are saved copies of Imgflip pages used only by the tests; remove them before making the repository public.
+The scraped data (meme pictures, captions, usernames) is **not** in this repository and must not be committed: the pictures are third-party images and the captions belong to their authors. [Imgflip's terms](https://imgflip.com/terms) say content may not be used without its owner's permission. The scraper only follows what `robots.txt` allows and is deliberately slow, but that is not permission. This project is a private research prototype and is not affiliated with Imgflip; get permission or use a licensed collection before any public or commercial use. The `tests/fixtures/` HTML files are small saved copies of Imgflip pages used only by the parser tests. They will be removed on request from Imgflip or any author.
 
 No license has been chosen yet (all rights reserved).
 
