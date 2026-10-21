@@ -1,0 +1,10 @@
+# Only needed for the SigLIP experiments in spike_bakeoff/ and the legacy match_vercel/ service
+-r requirements.txt
+torch
+transformers
+sentencepiece
+protobuf
+einops
+timm
+accelerate
+anthropic

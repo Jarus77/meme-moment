@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f4efdf" />
+    <meta name="description" content="Turn a real-life moment into a meme that fits." />
+    <title>Meme Moment — Find the meme for this moment</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/app.js" type="module"></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Meme Moment home"><span class="brand-mark">M</span><span>meme moment</span></a>
+        <span class="topbar-note">Your situation, in meme form.</span>
+      </header>
+
+      <section class="fit-workspace" id="fit-workspace" aria-labelledby="fit-title">
+        <div class="fit-intro">
+          <p class="eyebrow"><span class="eyebrow-dot"></span> REAL VIRAL MEMES, FITTED TO YOU</p>
+          <h2 id="fit-title">Your moment,<br /><em>in memes that already landed.</em></h2>
+          <p class="photo-intro">We search about 19,000 real meme captions across 1,500 meme formats, find the closest ones that went viral, and Gemini adjusts them to fit your situation or your photo. Close enough, tweaked to fit you, never generic.</p>
+          <ol class="photo-steps">
+            <li>Tell us the situation, share a photo, or both.</li>
+            <li>We look for real captions and meme pictures that match, in every pairing: your words or your photo against the captions and the pictures.</li>
+            <li>That gives about eight close candidates from real memes.</li>
+            <li>Gemini adapts only what doesn’t fit yet, using your details. You pick the ones that make you laugh.</li>
+          </ol>
+        </div>
+        <div class="fit-main">
+          <div class="fit-tabs" role="tablist" aria-label="Choose how to start">
+            <button class="fit-tab" id="fit-tab-situation" type="button" role="tab" aria-selected="true" aria-controls="fit-form-situation" data-fit-tab="situation">Situation</button>
+            <button class="fit-tab" id="fit-tab-photo" type="button" role="tab" aria-selected="false" aria-controls="photo-workspace" data-fit-tab="photo">Photo only</button>
+            <button class="fit-tab" id="fit-tab-both" type="button" role="tab" aria-selected="false" aria-controls="fit-form-both" data-fit-tab="both">Photo + situation</button>
+          </div>
+          <form id="fit-form-situation" class="fit-form" role="tabpanel" aria-labelledby="fit-tab-situation" data-fit-panel="situation">
+            <label for="fit-situation-text">What’s the situation?</label>
+            <textarea id="fit-situation-text" maxlength="500" rows="4" placeholder="When you are working in the dark for hours and your roommate turns on the bright light…"></textarea>
+            <p class="photo-file-note">The more specific, the funnier. Your words go to Gemini; nothing is saved.</p>
+            <button class="generate-button" id="fit-submit-situation" type="submit"><span>Find memes for this situation</span><span class="button-arrow" aria-hidden="true">↗</span></button>
+          </form>
+          <form id="fit-form-both" class="fit-form" role="tabpanel" aria-labelledby="fit-tab-both" data-fit-panel="both" hidden>
+            <label for="fit-photo-input">Choose a photo</label>
+            <input id="fit-photo-input" name="photo" type="file" accept="image/*" />
+            <label for="fit-both-text">What’s the situation behind it?</label>
+            <textarea id="fit-both-text" maxlength="500" rows="3" placeholder="Why does the photo look like this? The story is what makes it yours."></textarea>
+            <p class="photo-file-note">Your photo is sent to Gemini to read it and adapt captions. It never goes to our meme matcher, and this app does not save it.</p>
+            <button class="generate-button" id="fit-submit-both" type="submit"><span>Find memes for my photo and situation</span><span class="button-arrow" aria-hidden="true">↗</span></button>
+          </form>
+          <p id="fit-photo-only-note" class="photo-file-note" data-fit-panel="photo" hidden>Photo only uses just your picture. That tool is right below.</p>
+          <p id="fit-status" class="action-status" role="status" aria-live="polite"></p>
+          <p id="fit-error" class="error-state" role="alert" hidden></p>
+        </div>
+        <section id="fit-results" class="fit-results" aria-label="Your fitted memes" hidden>
+          <div class="preview-topline"><span>FITTED TO YOUR MOMENT</span><span class="live-indicator"><i></i> PICK YOUR FAVOURITES</span></div>
+          <div id="fit-card-list" class="fit-card-list"></div>
+          <details class="fit-evidence">
+            <summary>Why these? The real captions they came from</summary>
+            <ul id="fit-analogs"></ul>
+          </details>
+        </section>
+      </section>
+      <section class="workspace" aria-labelledby="page-title">
+        <div class="maker-panel">
+          <p class="eyebrow"><span class="eyebrow-dot"></span> THE IDEA-FIRST MEME MAKER</p>
+          <h1 id="page-title">Find the meme<br />for <em>this</em> moment.</h1>
+          <p class="intro">Tell us what happened. We’ll find a format that gets it, then give you captions you can make your own.</p>
+
+          <form id="meme-form" class="prompt-form">
+            <label for="prompt">What’s the situation?</label>
+            <textarea id="prompt" name="prompt" maxlength="500" rows="4" placeholder="When the meeting ends with another meeting…" required></textarea>
+            <div class="prompt-meta"><span>Keep it specific. The details make the joke.</span><span id="prompt-count">0 / 500</span></div>
+            <label class="batch-label" for="meme-count">How many options?</label>
+            <select id="meme-count" name="count"><option value="1">1 meme</option><option value="5" selected>5 memes</option><option value="7">7 memes</option></select>
+            <label class="image-analysis-toggle" for="analyze-images"><input id="analyze-images" name="analyzeImages" type="checkbox" /><span><strong>Let Gemini look at the meme images</strong><small>Uses the image, situation, and Imgflip’s draft captions to write a more visual joke.</small></span></label>
+            <button id="generate" class="generate-button" type="submit"><span>Make me a meme</span><span class="button-arrow" aria-hidden="true">↗</span></button>
+            <p id="action-status" class="action-status" role="status" aria-live="polite"></p>
+          </form>
+
+          <div class="example-prompts" aria-label="Example prompts">
+            <span class="example-label">TRY ONE</span>
+            <button class="prompt-chip" type="button" data-prompt="When the client says it is just one tiny change">“Just one tiny change”</button>
+            <button class="prompt-chip" type="button" data-prompt="When I open my laptop on Monday morning">Monday mode</button>
+          </div>
+          <p class="privacy-note"><span aria-hidden="true">✳</span> Your situation and draft captions go to Gemini. With image analysis on, generated images are sent too. Imgflip hosts the images; this app doesn’t store them.</p>
+        </div>
+
+        <aside class="preview-panel" aria-label="Meme preview">
+          <div class="preview-topline"><span>THE MEME DESK</span><span class="live-indicator"><i></i> READY WHEN YOU ARE</span></div>
+          <div id="result-area" class="result-area" aria-live="polite" aria-busy="false">
+            <div class="empty-preview" id="empty-preview">
+              <div class="empty-art" aria-hidden="true">
+                <div class="art-sun"></div>
+                <div class="art-face"><span class="eye eye-left"></span><span class="eye eye-right"></span><span class="mouth"></span></div>
+                <div class="art-caption art-caption-top">YOUR MOMENT</div>
+                <div class="art-caption art-caption-bottom">YOUR MEME</div>
+                <span class="spark spark-one">✳</span><span class="spark spark-two">✦</span>
+              </div>
+              <p class="empty-title">The blank page is the hard part.</p>
+              <p class="empty-copy">Start with what happened. We’ll take it from there.</p>
+              <div class="step-hint"><span>01</span> MOMENT <b>→</b> <span>02</span> MEME</div>
+            </div>
+            <div id="loading-state" class="loading-state" hidden>
+              <div class="loading-stamp">M</div>
+              <p>Finding the right reaction<span class="loading-dots">…</span></p>
+              <span class="loading-subtitle">Matching your moment to a meme format</span>
+            </div>
+            <div id="error-state" class="error-state" role="alert" hidden></div>
+            <div id="meme-result" class="meme-result" hidden>
+              <div id="candidate-list" class="candidate-list" aria-label="Generated meme options"></div>
+              <p id="batch-note" class="batch-note" hidden></p>
+              <div class="image-wrap"><img id="meme-image" alt="Generated meme" /></div>
+              <div class="result-meta"><span id="template-label">MATCH FOUND</span><a id="source-link" href="#" target="_blank" rel="noreferrer">View on Imgflip ↗</a></div>
+              <p id="image-analysis-note" class="image-analysis-note" hidden></p>
+              <p id="prompt-rewrite-note" class="prefix-note" hidden></p>
+              <p id="prefix-note" class="prefix-note" hidden>Imgflip uses a shortened version of your prompt for the caption draft.</p>
+              <form id="caption-form" class="caption-form"></form>
+              <div class="result-actions">
+                <button id="render-captions" class="secondary-button" type="submit" form="caption-form">Update captions</button>
+                <button id="try-another" class="text-button" type="button">Try another ↻</button>
+                <a id="download-meme" class="download-button" href="#">Download meme <span aria-hidden="true">↓</span></a>
+              </div>
+            </div>
+            <div id="fallback-area" class="fallback-area" hidden>
+              <p>Imgflip couldn’t reuse that matched template. You can try a general meme instead.</p>
+              <button id="general-generate" class="secondary-button" type="button">Try without template matching</button>
+            </div>
+          </div>
+          <div class="preview-footer"><span>ONE PROMPT. FIND THE REACTION THAT LANDS.</span><span>✳</span></div>
+        </aside>
+      </section>
+
+      <section class="photo-workspace" id="photo-workspace" aria-labelledby="photo-title">
+        <div class="photo-maker">
+          <p class="eyebrow"><span class="eyebrow-dot"></span> PHOTO TO MEME</p>
+          <h2 id="photo-title">Your photo,<br /><em>with a punchline.</em></h2>
+          <p class="photo-intro">Use a photo as the canvas. We’ll find a meme format that fits the moment and offer three captions.</p>
+          <ol class="photo-steps">
+            <li>Choose a photo. We resize it to 1280 px and send it to Gemini for a description.</li>
+            <li>Gemini describes the scene, emotion, and objects; it does not identify anyone.</li>
+            <li>That description finds matching meme formats and public example captions.</li>
+            <li>Gemini picks a fit and writes three fresh options; your browser captions your photo.</li>
+          </ol>
+          <form id="photo-form" class="photo-form">
+            <label for="photo-input">Choose a photo</label>
+            <input id="photo-input" name="photo" type="file" accept="image/*" required />
+            <p class="photo-file-note">The resized JPEG must be 5 MB or less. Your photo is sent to Gemini for its description, never to the matcher, and this app does not save it.</p>
+            <button id="make-photo-meme" class="generate-button" type="submit"><span>Find a meme for this photo</span><span class="button-arrow" aria-hidden="true">↗</span></button>
+            <p id="photo-status" class="action-status" role="status" aria-live="polite"></p>
+            <p id="photo-error" class="error-state" role="alert" hidden></p>
+          </form>
+        </div>
+        <section id="photo-result" class="photo-result" aria-label="Photo meme result" hidden>
+          <div class="preview-topline"><span>YOUR PHOTO, CAPTIONED</span><span class="live-indicator"><i></i> THREE OPTIONS</span></div>
+          <div id="photo-option-list" class="photo-option-list" aria-label="Caption options"></div>
+          <div class="photo-image-wrap"><img id="photo-meme-image" alt="Your photo with a meme caption" /></div>
+          <div class="photo-result-actions">
+            <span id="photo-caption-label" class="photo-caption-label"></span>
+            <a id="download-photo-meme" class="download-button" href="#" download="photo-meme.png">Download PNG <span aria-hidden="true">↓</span></a>
+          </div>
+          <p id="photo-description" class="photo-description"></p>
+          <div class="matched-evidence">
+            <h3>Formats that fit this moment</h3>
+            <div id="matched-template-list" class="matched-template-list"></div>
+          </div>
+          <div class="preview-footer"><span>YOUR PHOTO STAYS IN THIS BROWSER FOR THE MEME</span><span>✳</span></div>
+        </section>
+      </section>
+
+      <section class="hood" id="under-the-hood" aria-labelledby="hood-title">
+        <p class="eyebrow"><span class="eyebrow-dot"></span> UNDER THE HOOD</p>
+        <h2 id="hood-title">How a photo and a situation<br /><em>become a meme.</em></h2>
+        <p class="photo-intro">Nothing starts from a blank page. We look for real captions and meme pictures that already worked, find the closest ones in five different ways, and only then ask Gemini to adjust them to you.</p>
+
+        <h3>The data</h3>
+        <p>1,500 meme templates (picture, name, number of text boxes) and 18,360 real captions that people wrote on them, each with its author and upvotes. Every caption and every picture was converted once into a list of 768 numbers, an <strong>embedding</strong>, by Gemini Embedding 2. Text and pictures live in the <strong>same space</strong>, so a sentence can be compared directly with a picture. Things with similar meaning land close together, and closeness is measured by <strong>cosine similarity</strong> (1 means pointing the same way, 0 means unrelated).</p>
+
+        <h3>What is matched to what</h3>
+        <div class="hood-table-wrap">
+          <table class="hood-table">
+            <thead><tr><th>Search</th><th>Your input</th><th>Compared with</th><th>How</th><th>Good at finding</th></tr></thead>
+            <tbody>
+              <tr data-search="keywords"><td>1</td><td>Your situation’s words</td><td>The text of every real caption (and template names)</td><td>BM25 word overlap, ignoring openers like “WHEN YOU…”</td><td>Exact wording: “light”, “roommate”</td></tr>
+              <tr data-search="meaning"><td>2</td><td>Your situation</td><td>All 18,360 real captions</td><td>Cosine similarity of embeddings: meaning, not wording</td><td>Captions about the same kind of moment</td></tr>
+              <tr data-search="situation_picture"><td>3</td><td>Your situation</td><td>The 1,500 meme pictures</td><td>Cosine similarity between a sentence and a picture</td><td>Reaction faces that express the feeling</td></tr>
+              <tr data-search="photo_picture"><td>4</td><td>Your photo</td><td>The meme pictures</td><td>Cosine similarity between two pictures</td><td>Similar scenes and poses</td></tr>
+              <tr data-search="photo_caption"><td>5</td><td>Your photo</td><td>The real captions</td><td>Cosine similarity between a picture and a sentence</td><td>Captions that describe a similar scene</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Each search ranks the templates. A template’s score in a search is its best picture or caption in that search.</p>
+
+        <h3>From five rankings to eight candidates</h3>
+        <p>The rankings are merged by rank (reciprocal rank fusion) with hand-set weights: words 1.0, situation↔captions 1.0, photo↔pictures 0.75, situation↔pictures 0.5, photo↔captions 0.4. The pool of eight is filled round-robin, one slot at a time from each search, so no search can crowd the others out. Inside a template, captions are ordered by closeness to your situation, with a small bonus for upvotes as a tie-breaker.</p>
+
+        <h3>Gemini adapts, it does not invent</h3>
+        <p>Gemini sees your photo (if you gave one), your situation, and the eight candidates with three real captions each. For every option it must pick one candidate and one real caption, then adapt it: keep the structure and wording where they still fit, change only what is needed, use details from your photo, and treat the situation as the reason behind the photo. The server checks every option. Each card credits the real caption and its author and shows which searches found it.</p>
+
+        <details class="hood-example">
+          <summary>Worked example: working in the dark when the light goes on</summary>
+          <p class="hood-example-note">One real run: the photo shows a person hunched over a laptop with a jacket over their head, next to a whiteboard; the situation is “When you are working in the dark for hours and your roommate turns on the bright light in the room”. Top three templates per search, with scores:</p>
+          <ol class="hood-example-list">
+            <li><strong>1 · words ↔ caption words:</strong> disappearing (22.6) · WHICH SIDE ARE YOU ON? (14.6) · What if you-But god said (13.6)</li>
+            <li><strong>2 · situation ↔ captions:</strong> Limmy waking up (0.88) · disappearing (0.83) · Black guy disappearing (0.82)</li>
+            <li><strong>3 · situation ↔ pictures:</strong> blinking guy vertical blank (0.40) · I’ll Just Wait Here (0.39) · screaming seagull (0.39)</li>
+            <li><strong>4 · photo ↔ pictures:</strong> Busy (0.651) · Monkey Business (0.651) · Computer Guy Facepalm (0.650)</li>
+            <li><strong>5 · photo ↔ captions:</strong> neo dodging a bullet (0.408) · Busy (0.406) · tired cat (0.405)</li>
+          </ol>
+          <p>Merged pool, best first: disappearing (searches 1, 2) · Limmy waking up (2) · Black guy disappearing (2) · Busy (4, 5) · WHICH SIDE ARE YOU ON? (1) · blinking guy (3) · neo dodging a bullet (5) · Monkey Business (4).</p>
+          <p>Gemini then adapted the real caption “Me: Turns on light / Monsters in the room:” (141 upvotes) into “Roommate: *turns on the bright overhead light* / Me under my jacket at 2 AM:”, using the jacket from the photo and the light from the situation.</p>
+        </details>
+
+        <h3>What this can and cannot do</h3>
+        <ul class="hood-limits">
+          <li><strong>Measured:</strong> on 2,500 captions held out of the data, the right template appears in the top 20 of 1,500 about 41% of the time (random would be about 1%).</li>
+          <li><strong>Not yet measured:</strong> whether people find these funnier than a plain AI caption (the 1 to 5 buttons are there to find out). The two photo searches have not been tested separately, and as the example shows their scores are nearly tied, so they mostly add variety. The weights are intuition, not tuned.</li>
+          <li><strong>Upvotes</strong> are only a rough stand-in for “went viral”, and the collection leans toward older, popular templates.</li>
+          <li><strong>Privacy:</strong> your photo goes to Gemini only. The matcher receives your words and numbers, never the image, and nothing is saved.</li>
+        </ul>
+      </section>
+
+      <footer class="page-footer"><span>MADE FOR THE MOMENT YOU CAN’T QUITE CAPTION</span><span>IMGFLIP + GEMINI</span></footer>
+    </main>
+  </body>
+</html>

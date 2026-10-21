@@ -1,0 +1,32 @@
+# Secrets: never commit these
+.env
+.env.*
+!.env.example
+
+# Python / Node
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+node_modules/
+.DS_Store
+*.log
+
+# Vercel project links (contain org/project ids)
+.vercel/
+
+# Scraped data and generated artifacts (rebuilt by the pipeline, see README "Rebuild the data")
+/data/
+/match_service/data/
+/match_vercel/model/
+/match_vercel/match_service/
+/match_vercel_v2/match_service/
+/retrieval_v2/*.npy
+/retrieval_bench/*.npy
+/spike_bakeoff/index/
+
+# Personal photos and anything generated from them
+/spike_bakeoff/photos/
+/spike_bakeoff/output/
+/image*.png

@@ -1,0 +1,6 @@
+.env
+.env.*
+.superpowers
+docs
+outputs
+tests
